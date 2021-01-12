@@ -1,0 +1,149 @@
+<xsd:schema xmlns="http://ndf.xiaoniu.com/schema/tags/fuse"
+            targetNamespace="http://ndf.xiaoniu.com/schema/tags/fuse"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.springframework.org/schema/beans"/>
+
+    <xsd:element name="consumer">
+        <xsd:annotation>
+            <xsd:documentation>fuse</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <!-- 继承定义 从namespace="http://www.springframework.org/schema/beans" -->
+            <xsd:sequence>
+                <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                    <xsd:element ref="method" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:choice>
+            </xsd:sequence>
+            <xsd:attribute name="dependence" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation><![CDATA[ dependence config ]]></xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="id" type="xsd:string" use="required"/>
+            <xsd:attribute name="circuitBreakerSleepInMSec" type="xsd:integer"/>
+            <xsd:attribute name="maxSemaphoreSize" type="xsd:integer"/>
+            <xsd:attribute name="circuitBreakerErrorThresholdPercentage" type="xsd:integer"/>
+            <xsd:attribute name="fullParam" type="xsd:boolean" use="required"/>
+            <xsd:attribute name="targetClass" type="xsd:string" use="required"/>
+            <xsd:attribute name="groupKey" type="xsd:string"/>
+            <xsd:attribute name="commandKey" type="xsd:string"/>
+            <xsd:attribute name="threadPoolKey" type="xsd:string"/>
+            <xsd:attribute name="strategy">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:pattern value="Thread|Semaphore"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:attribute>
+            <xsd:attribute name="timeoutInMilliseconds" type="xsd:string"/>
+            <xsd:attribute name="circuitBreakerEnabled" type="xsd:boolean"/>
+            <xsd:attribute name="circuitBreakerRequestVolumeThreshold" type="xsd:integer"/>
+            <xsd:attribute name="fallBackRef" type="xsd:string"/>
+            <xsd:attribute name="fallBackMethod" type="xsd:string"/>
+            <xsd:attribute name="accordance" type="xsd:boolean" use="required"/>
+            <xsd:attribute name="coreSize" type="xsd:integer"/>
+            <xsd:attribute name="maxQueueSize" type="xsd:integer"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="method">
+        <xsd:complexType>
+            <xsd:attribute name="strategy">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:pattern value="Thread|Semaphore"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:attribute>
+            <xsd:attribute name="dependence" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation><![CDATA[ dependence config ]]></xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="circuitBreakerErrorThresholdPercentage" type="xsd:integer"/>
+            <xsd:attribute name="maxSemaphoreSize" type="xsd:integer"/>
+            <xsd:attribute name="circuitBreakerSleepInMSec" type="xsd:integer"/>
+            <xsd:attribute name="fullParam" type="xsd:boolean" use="required"/>
+            <xsd:attribute name="groupKey" type="xsd:string"/>
+            <xsd:attribute name="commandKey" type="xsd:string"/>
+            <xsd:attribute name="threadPoolKey" type="xsd:string"/>
+            <xsd:attribute name="name" type="xsd:string" use="required"/>
+            <xsd:attribute name="fallBackRef" type="xsd:string"/>
+            <xsd:attribute name="fallBackMethod" type="xsd:string"/>
+            <xsd:attribute name="coreSize" type="xsd:integer"/>
+            <xsd:attribute name="maxQueueSize" type="xsd:integer"/>
+            <xsd:attribute name="timeoutInMilliseconds" type="xsd:string"/>
+            <xsd:attribute name="circuitBreakerRequestVolumeThreshold" type="xsd:integer"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="dependence" type="dependenceType">
+        <xsd:annotation>
+            <xsd:documentation><![CDATA[ Export service default config ]]></xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:complexType name="dependenceType">
+        <xsd:attribute name="id" type="xsd:string" use="required"/>
+        <xsd:attribute name="groupKey" type="xsd:string"/>
+        <xsd:attribute name="commandKey" type="xsd:string"/>
+        <xsd:attribute name="threadPoolKey" type="xsd:string"/>
+        <xsd:attribute name="strategy">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="Thread|Semaphore"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="circuitBreakerErrorThresholdPercentage" type="xsd:integer"/>
+        <xsd:attribute name="maxSemaphoreSize" type="xsd:integer"/>
+        <xsd:attribute name="circuitBreakerSleepInMSec" type="xsd:integer"/>
+        <xsd:attribute name="timeoutInMilliseconds" type="xsd:string"/>
+        <xsd:attribute name="circuitBreakerEnabled" type="xsd:boolean"/>
+        <xsd:attribute name="circuitBreakerRequestVolumeThreshold" type="xsd:integer"/>
+        <xsd:attribute name="fallBackRef" type="xsd:string"/>
+        <xsd:attribute name="fallBackMethod" type="xsd:string"/>
+        <xsd:attribute name="coreSize" type="xsd:integer"/>
+        <xsd:attribute name="maxQueueSize" type="xsd:integer"/>
+    </xsd:complexType>
+
+
+    <xsd:element name="url">
+        <xsd:annotation>
+            <xsd:documentation>fuse-url</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="dependence" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation><![CDATA[ dependence config ]]></xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="circuitBreakerSleepInMSec" type="xsd:integer"/>
+            <xsd:attribute name="id" type="xsd:string" use="required"/>
+            <xsd:attribute name="url" type="xsd:string" use="required"/>
+            <xsd:attribute name="groupKey" type="xsd:string"/>
+            <xsd:attribute name="commandKey" type="xsd:string"/>
+            <xsd:attribute name="threadPoolKey" type="xsd:string"/>
+            <xsd:attribute name="strategy">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:pattern value="Thread|Semaphore"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:attribute>
+            <xsd:attribute name="circuitBreakerErrorThresholdPercentage" type="xsd:integer"/>
+            <xsd:attribute name="maxSemaphoreSize" type="xsd:integer"/>
+            <xsd:attribute name="timeoutInMilliseconds" type="xsd:string"/>
+            <xsd:attribute name="circuitBreakerEnabled" type="xsd:boolean"/>
+            <xsd:attribute name="circuitBreakerRequestVolumeThreshold" type="xsd:integer"/>
+            <xsd:attribute name="fallBackRef" type="xsd:string"/>
+            <xsd:attribute name="fallBackMethod" type="xsd:string"/>
+            <xsd:attribute name="coreSize" type="xsd:integer"/>
+            <xsd:attribute name="maxQueueSize" type="xsd:integer"/>
+        </xsd:complexType>
+    </xsd:element>
+
+
+</xsd:schema>

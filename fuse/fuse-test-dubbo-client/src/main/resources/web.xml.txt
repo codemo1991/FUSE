@@ -1,0 +1,9 @@
+<servlet>
+    <servlet-name>fuse</servlet-name>
+    <servlet-class>com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>fuse</servlet-name>
+    <url-pattern>/hystrix.stream</url-pattern>
+</servlet-mapping>

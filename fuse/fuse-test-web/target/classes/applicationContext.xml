@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:fuse="http://ndf.xiaoniu.com/schema/tags/fuse"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://ndf.xiaoniu.com/schema/tags/fuse
+	    http://ndf.xiaoniu.com/schema/tags/fuse/fuse.xsd
+  	    http://www.springframework.org/schema/aop
+	    http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+
+    <context:component-scan base-package="com.xiaoniu.fuse.test"></context:component-scan>
+    <mvc:annotation-driven/>
+
+
+    <aop:config proxy-target-class="true"></aop:config>
+    <bean class="com.xiaoniu.fuse.core.aop.FuseHystrixCommandAdvisor"></bean>
+
+    <fuse:dependence
+            id="dependenceConfig"
+            groupKey="FastGk"
+            commandKey="CK"
+            threadPoolKey="TK"
+            strategy="Thread"
+            timeoutInMilliseconds="100"
+            circuitBreakerEnabled="true"
+            circuitBreakerRequestVolumeThreshold="10"
+            fallBackRef="fallBackService"
+            fallBackMethod="say"
+            coreSize="1"
+            maxQueueSize="2"
+    />
+
+
+    <fuse:consumer
+            id="repaymentRecordSOAService3"
+            targetClass="com.xiaoniu.fuse.test.web.service.SpeakService"
+            accordance="true"
+            fullParam="false"
+            dependence="dependenceConfig">
+        <fuse:method name="talk"
+                     fullParam="false"
+                     dependence="dependenceConfig"/>
+        <fuse:method name="speak"
+                     fullParam="false"
+                     groupKey="1abc"
+                     commandKey="2abc"
+                     threadPoolKey="1abc"
+                     fallBackRef="fallBack"
+                     fallBackMethod="talk"
+                     timeoutInMilliseconds="5000"
+                     circuitBreakerRequestVolumeThreshold="1000"
+                     coreSize="50"
+                     maxQueueSize="1000"/>
+    </fuse:consumer>
+
+</beans>

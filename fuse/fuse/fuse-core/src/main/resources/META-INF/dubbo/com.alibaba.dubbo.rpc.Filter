@@ -1,0 +1,1 @@
+hystrix=com.xiaoniu.fuse.core.filter.dubbo.FuseDubboFilter
